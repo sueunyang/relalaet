@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>발표 — Grow My Earth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0a0e1a;
+    --panel: #121a2c;
+    --panel-line: #223049;
+    --ocean: #1e5f8c;
+    --canopy: #4e9b5d;
+    --canopy-bright: #6bc47d;
+    --bloom: #f2b84b;
+    --mist: #eaf0f6;
+    --mist-dim: #93a2b8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: radial-gradient(ellipse at 50% -10%, #16223a 0%, var(--void) 55%);
+    color: var(--mist);
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .deck {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8vh 10vw;
+  }
+  .slide.active { display: flex; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.18em;
+    font-size: 12px;
+    color: var(--canopy-bright);
+    margin: 0 0 16px;
+  }
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.2;
+    margin: 0 0 20px;
+  }
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(24px, 3.4vw, 36px);
+    margin: 0 0 28px;
+  }
+  p.lead {
+    font-size: clamp(15px, 1.6vw, 19px);
+    color: var(--mist-dim);
+    max-width: 640px;
+    line-height: 1.7;
+  }
+  .accent { color: var(--canopy-bright); }
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 14px;
+    padding: 22px 24px;
+  }
+  .card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    margin: 0 0 8px;
+    color: var(--canopy-bright);
+  }
+  .card p { margin: 0; font-size: 13.5px; color: var(--mist-dim); line-height: 1.6; }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 620px;
+  }
+  .stack-item {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 14px 18px;
+    border-left: 3px solid var(--canopy-bright);
+    background: var(--panel);
+    border-radius: 0 10px 10px 0;
+  }
+  .stack-item .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--bloom);
+    min-width: 90px;
+  }
+  .stack-item .txt { font-size: 14px; color: var(--mist); }
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 720px;
+  }
+  .flow-step {
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .flow-arrow { color: var(--mist-dim); font-size: 18px; }
+  .title-planet {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #63d98b, #12764a);
+    box-shadow: 0 0 50px rgba(99,217,139,0.35);
+    margin-bottom: 28px;
+  }
+
+  /* 네비게이션 */
+  .nav {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(18,26,44,0.85);
+    border: 1px solid var(--panel-line);
+    padding: 10px 16px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+  .nav button {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--panel-line);
+    color: var(--mist);
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .nav button:hover { background: var(--canopy); color: #08130a; }
+  .nav-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--mist-dim);
+    min-width: 40px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- 1. 타이틀 -->
+  <section class="slide active">
+    <div class="title-planet"></div>
+    <p class="eyebrow">발표자료 · GROW MY EARTH</p>
+    <h1>탄소 절약 행동으로<br><span class="accent">지구를 키우는</span> 게임</h1>
+    <p class="lead">매일의 작은 친환경 행동을 인증하면 나만의 행성이 성장합니다.
+      HTML · CSS · JS와 Google Sheets · Apps Script로 만든 웹 프로젝트입니다.</p>
+  </section>
+
+  <!-- 2. 문제 정의 -->
+  <section class="slide">
+    <p class="eyebrow">01 · 문제 정의</p>
+    <h2>환경 실천, <span class="accent">동기부여</span>가 없으면 오래가지 않는다</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>실천은 알지만</h3>
+        <p>텀블러 사용, 대중교통 이용 같은 행동은 누구나 알고 있지만 꾸준히 이어가긴 어렵습니다.</p>
+      </div>
+      <div class="card">
+        <h3>변화가 안 보임</h3>
+        <p>내 행동이 실제로 얼마나 도움이 되는지 눈에 보이지 않아 지속할 이유를 찾기 힘듭니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 솔루션 -->
+  <section class="slide">
+    <p class="eyebrow">02 · 솔루션</p>
+    <h2>행동을 인증하면, <span class="accent">지구가 자란다</span></h2>
+    <div class="flow">
+      <div class="flow-step">오늘의 행동 체크</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">포인트 · CO₂ 절감량 적립</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">행성 단계 성장</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">꾸미기 + 랭킹 경쟁</div>
+    </div>
+    <p class="lead" style="margin-top:28px;">황폐한 행성 → 바다 회복 → 초록 대륙 → 숲 무성 →
+      빛나는 생태계, 총 5단계로 성장합니다.</p>
+  </section>
+
+  <!-- 4. 주요 기능 -->
+  <section class="slide">
+    <p class="eyebrow">03 · 주요 기능</p>
+    <h2>게임처럼 즐기는 <span class="accent">지속가능한 습관</span></h2>
+    <div class="stack">
+      <div class="stack-item"><span class="tag">STREAK</span><span class="txt">연속 인증 기록으로 습관 형성 유도</span></div>
+      <div class="stack-item"><span class="tag">MISSION</span><span class="txt">매일 바뀌는 오늘의 미션 + 보너스 포인트</span></div>
+      <div class="stack-item"><span class="tag">EVENT</span><span class="txt">특정 날짜엔 포인트 2배 이벤트</span></div>
+      <div class="stack-item"><span class="tag">BADGE</span><span class="txt">조건 달성 시 수집하는 업적 배지</span></div>
+      <div class="stack-item"><span class="tag">DECOR</span><span class="txt">해금한 아이템으로 나만의 행성 꾸미기</span></div>
+      <div class="stack-item"><span class="tag">RANK</span><span class="txt">Google Sheets 기반 실시간 리더보드</span></div>
+    </div>
+  </section>
+
+  <!-- 5. 기술 스택 -->
+  <section class="slide">
+    <p class="eyebrow">04 · 기술 스택</p>
+    <h2>가볍고 <span class="accent">단순한 구조</span></h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Front-end</h3>
+        <p>HTML · CSS · JavaScript (프레임워크 없이 순수 코드로 구현, GitHub Pages 배포)</p>
+      </div>
+      <div class="card">
+        <h3>Data & Automation</h3>
+        <p>Google Sheets를 데이터베이스로, Apps Script를 API 서버로 활용해 리더보드를 자동 갱신</p>
+      </div>
+      <div class="card">
+        <h3>저장 방식</h3>
+        <p>localStorage로 개인 기기에 즉시 저장 + 서버 연동 시 전체 랭킹과 동기화</p>
+      </div>
+      <div class="card">
+        <h3>배포</h3>
+        <p>별도 서버 없이 GitHub Pages로 정적 호스팅, 누구나 링크로 접속 가능</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 마무리 -->
+  <section class="slide">
+    <p class="eyebrow">05 · 마무리</p>
+    <h2>작은 행동이 모여 <span class="accent">하나의 지구</span>가 됩니다</h2>
+    <p class="lead">앞으로 사진 인증, 친구 초대, 학급 단체전 등으로 발전시킬 계획입니다.
+      지금 바로 나의 지구를 키워보세요.</p>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn">‹</button>
+  <span class="nav-count" id="navCount">1 / 6</span>
+  <button id="nextBtn">›</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let idx = 0;
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    document.getElementById('navCount').textContent = `${idx + 1} / ${slides.length}`;
+  }
+  function next() { idx = Math.min(idx + 1, slides.length - 1); render(); }
+  function prev() { idx = Math.max(idx - 1, 0); render(); }
+
+  document.getElementById('nextBtn').addEventListener('click', next);
+  document.getElementById('prevBtn').addEventListener('click', prev);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+</script>
+
+</body>
+</html>
