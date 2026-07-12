@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grow My Earth — 탄소 절약 행동 시뮬레이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 닉네임 입력 화면 -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <p class="eyebrow">GROW MY EARTH</p>
+      <h1>당신의 행동이<br>지구를 살립니다</h1>
+      <p class="login-desc">닉네임을 입력하고 오늘의 탄소 절약 행동을 시작해보세요.</p>
+      <input type="text" id="nicknameInput" placeholder="닉네임 (2~10자)" maxlength="10">
+      <button id="startBtn" class="btn-primary">지구 만나러 가기</button>
+      <p id="loginError" class="login-error"></p>
+    </div>
+  </div>
+
+  <!-- 메인 대시보드 -->
+  <div id="mainScreen" class="main-screen hidden">
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name">GROW MY EARTH</span>
+      </div>
+      <div class="player-chip">
+        <span id="playerName">-</span>
+        <button id="logoutBtn" title="닉네임 변경">⟳</button>
+      </div>
+    </header>
+
+    <div id="eventBanner" class="event-banner hidden"></div>
+
+    <main class="dashboard">
+
+      <!-- 궤도형 행성 뷰 -->
+      <section class="planet-section">
+        <div class="planet-orbit-wrap">
+          <svg id="planetSvg" viewBox="0 0 400 400" class="planet-svg"></svg>
+          <div class="deco-slots" id="decoSlots"></div>
+        </div>
+        <p class="stage-label" id="stageLabel">단계 1 · 황폐한 행성</p>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-text" id="progressText">다음 단계까지 0P</p>
+      </section>
+
+      <!-- 통계 스트립 -->
+      <section class="stat-strip">
+        <div class="stat-item">
+          <span class="stat-label">포인트</span>
+          <span class="stat-value" id="statPoints">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">연속 기록</span>
+          <span class="stat-value" id="statStreak">0<small>일</small></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">내 순위</span>
+          <span class="stat-value" id="statRank">-</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">절감 CO₂</span>
+          <span class="stat-value" id="statCo2">0<small>kg</small></span>
+        </div>
+      </section>
+
+      <div class="dashboard-grid">
+
+        <!-- 오늘의 행동 체크리스트 -->
+        <section class="panel actions-panel">
+          <div class="panel-head">
+            <h2>오늘의 행동</h2>
+            <span class="panel-sub" id="todayDate">-</span>
+          </div>
+          <ul id="actionList" class="action-list"></ul>
+          <button id="certifyBtn" class="btn-primary btn-block">오늘 행동 인증하기</button>
+          <p id="certifyMsg" class="certify-msg"></p>
+        </section>
+
+        <div class="side-col">
+          <!-- 오늘의 미션 -->
+          <section class="panel mission-panel">
+            <div class="panel-head">
+              <h2>오늘의 미션</h2>
+            </div>
+            <p id="missionText" class="mission-text">-</p>
+            <p class="mission-bonus">완료 시 <strong>+15P</strong> 보너스</p>
+          </section>
+
+          <!-- 리더보드 -->
+          <section class="panel leaderboard-panel">
+            <div class="panel-head">
+              <h2>리더보드</h2>
+              <button id="refreshBoard" title="새로고침">⟳</button>
+            </div>
+            <ol id="leaderboardList" class="leaderboard-list">
+              <li class="lb-empty">불러오는 중...</li>
+            </ol>
+          </section>
+        </div>
+      </div>
+
+      <!-- 배지 선반 -->
+      <section class="panel badge-panel">
+        <div class="panel-head">
+          <h2>업적 배지</h2>
+        </div>
+        <div id="badgeShelf" class="badge-shelf"></div>
+      </section>
+
+      <!-- 지구 꾸미기 안내 -->
+      <p class="deco-hint">💡 행성 주위 빈 궤도를 클릭하면 잠금 해제된 장식을 배치할 수 있어요.</p>
+
+    </main>
+
+    <footer class="footer-note">
+      <span>Google Sheets 연동이 설정되지 않으면 이 기기에만 기록이 저장됩니다.</span>
+    </footer>
+  </div>
+
+  <!-- 장식 선택 모달 -->
+  <div id="decoModal" class="deco-modal hidden">
+    <div class="deco-modal-card">
+      <h3>장식 배치하기</h3>
+      <div id="decoChoices" class="deco-choices"></div>
+      <button id="decoModalClose" class="btn-secondary">닫기</button>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
